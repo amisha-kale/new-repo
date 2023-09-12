@@ -18,7 +18,7 @@
     "react-modal": "^3.11.2",
     "react-redux": "^7.2.0",
     "react-router": "5.2.0",
-    "react-router-dom": "5.2.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.0.1",
     "react-transition-group": "^4.4.1",
     "redux": "^4.0.5",
@@ -31,7 +31,7 @@
     "typescript": "3.8.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "cypress": "cypress open",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
