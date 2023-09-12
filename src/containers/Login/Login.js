@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import "./Login.css";
 
-import { NetflixLogo, LoginBackground } from "assets/images/";
+import { NetflixLogo, LoginBackground2 } from "assets/images/";
 import { TextField } from "@material-ui/core";
 import Button from "components/UI/Button/Button";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -102,10 +102,10 @@ const Login = props => {
   return (
     <div
       className="Login"
-      style={{ backgroundImage: `url(${LoginBackground})` }}
+      style={{ backgroundImage: `url(${LoginBackground2})` }}
     >
       <img src={NetflixLogo} alt="Logo" />
-      <div className="LoginCard">
+      <div className="LoginCard1">
         <h1>Sign In</h1>
         <form onSubmit={formSubmitHandler}>
           <TextField
@@ -121,7 +121,7 @@ const Login = props => {
             onBlur={fieldBlurHandler}
             autoComplete="off"
             InputLabelProps={{
-              style: { color: "#8c8c8c" }
+              style: { color: "#8c8c8c" },
             }}
           />
 
@@ -140,19 +140,20 @@ const Login = props => {
             onBlur={fieldBlurHandler}
             autoComplete="off"
             InputLabelProps={{
-              style: { color: "#8c8c8c" }
+              style: { color: "#8c8c8c" },
             }}
           />
 
           {passwordSpan}
 
           <Button
-            height="45px" width="100%"
+            height="45px"
+            width="100%"
             backgroundColor="#e50914"
-            textColor="#fff">
+            textColor="#fff"
+          >
             Sign In
           </Button>
-
         </form>
 
         <div className="HorizontalDiv">
@@ -165,6 +166,28 @@ const Login = props => {
           />
           <span>Need help?</span>
         </div>
+        <p
+          style={{
+            color: "#8c8c8c",
+            fontSize: "1.2rem",
+            textAlign: "center",
+            marginTop: "1rem",
+          }}
+        >
+          New to Netflix?{" "}
+          <span
+            style={{
+              color: "#fff",
+              fontWeight: "bold",
+              cursor: "pointer",
+            }}
+            onClick={() => 
+              history.push("/")
+            }
+          >
+            Sign up now.
+          </span>
+        </p>
       </div>
     </div>
   );

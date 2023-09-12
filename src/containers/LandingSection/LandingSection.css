@@ -1,8 +1,25 @@
-.landingSection {
-  height: 470px;
-  width: 100%;
-  border-bottom: 8px solid #222;
+.landingSection {}
+
+.default-ltr-cache-19f4kxn {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
 }
+
+.default-ltr-cache-1ndpmgo {
+
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+
+.default-ltr-cache-btlj1u {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.6875rem;
+}
+
+
 
 .landingTexts {
   display: flex;
@@ -16,7 +33,7 @@
   color: #fff;
 }
 
-.landingTexts > * {
+.landingTexts>* {
   margin-top: 15px;
 }
 
@@ -26,11 +43,11 @@
 }
 
 .ButtonSticker {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .TextField {
@@ -51,7 +68,8 @@
   color: #fff;
 }
 
-.tv-inner, .responsive-tv-inner {
+.tv-inner,
+.responsive-tv-inner {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -79,17 +97,17 @@
   width: 100%;
 }
 
-.GetStartedComponent > * {
+.GetStartedComponent>* {
   margin-bottom: 15px;
 }
 
 .ButtonSticker button {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 @media (min-width: 600px) {
   .landingSection {
-    height: 620px;
+    font-size: 1.25rem;
   }
 
   .landingTexts {
@@ -111,16 +129,16 @@
 }
 
 @media(min-width: 950px) {
-    .ButtonSticker {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-    }
+  .ButtonSticker {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .ButtonSticker button {
-        margin-top: 0;
-    }
+  .ButtonSticker button {
+    margin-top: 0;
+  }
 }
 
 @media(min-width: 1199px) {
@@ -131,13 +149,14 @@
 }
 
 @media(min-width: 1650px) {
-    .landingSection,
-    .tv-section,
-    .faq-section {
-        font-size: 1.75rem;
-    }
 
-    .tv-section img {
-        width: 35%;
-    }      
+  .landingSection,
+  .tv-section,
+  .faq-section {
+    font-size: 1.75rem;
+  }
+
+  .tv-section img {
+    width: 35%;
+  }
 }

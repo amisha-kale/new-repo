@@ -7,6 +7,8 @@ import Browse from 'containers/Browse/Browse'
 import { Switch, Route, Redirect } from "react-router-dom";
 import { AuthenticationContext } from 'context/Authentication'
 import NotFoundPage from 'components/StaticPages/NotFoundPage/NotFoundPage'
+import { Signup } from "containers/Signup/Signup";
+import { SignupPlanform } from "containers/Signup/SignupPlanform";
 
 export default function App() {
   const authContext = useContext(AuthenticationContext)
@@ -33,6 +35,10 @@ export default function App() {
         <Route exact path="/search" render={() => checkAuthAndSetBrowseComponent({ route: '/search' })}>
         </Route>
         <Route exact path="/login" component={Login}>
+        </Route>
+        <Route exact path="/signup" component={Signup}>
+        </Route>
+        <Route exact path="/signup/planform" component={SignupPlanform}>
         </Route>
         <Route exact path="/" component={LandingSection}>
         </Route>
