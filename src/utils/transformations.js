@@ -3,6 +3,8 @@ import React from 'react'
 import axios from 'baseAxios'
 import { isMobile } from 'react-device-detect'
 import VideoModal from 'components/Modals/VideoModal/VideoModal'
+import { List } from 'containers/Browse/routes'
+import { ListMovies } from 'containers/List/ListMovies'
 
 /**
  * 
@@ -87,12 +89,16 @@ export const buildVideoModal = (videoDetailModal, videoInfo, handlers) => {
     let detailModalComponent
     if (videoDetailModal && videoInfo) {
         detailModalComponent = (
+          <>
             <VideoModal
-                videoDetailModal={videoDetailModal}
-                videoInfo={videoInfo}
-                {...handlers}
+              videoDetailModal={videoDetailModal}
+              videoInfo={videoInfo}
+              {...handlers}
             />
-        )
+
+            <ListMovies videoInfo={videoInfo} />
+          </>
+        );
     }
 
     return detailModalComponent

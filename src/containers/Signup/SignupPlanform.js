@@ -1,11 +1,48 @@
 import React from 'react'
 import './SignUpPlan.css'
+import Axios from 'axios';
+
 
 // Assets
 import { NetflixLogo, LoginBackground2 } from "../../assets/images/";
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 export const SignupPlanform = () => {
+
+  
+
+  // Current Date
+  const date = new Date();
+  // generate time like this  "2023-09-14T09:31:37.111Z",
+  const currentTime = date.toISOString();
+
+  const history = useHistory();
+  // One month from now
+  const oneMonthFromNow = new Date(date.setMonth(date.getMonth() + 1));
+
+  const clickToSubscribe = (price) => {
+    Axios({
+      method: "post",
+      url: "https://ba01-2405-201-d01a-3101-9d42-b897-b3cb-77a2.ngrok-free.app/api/Subscription",
+      data: {
+        userId: `${localStorage.getItem("userId")}`,
+        paymentMethodToken: "online",
+        amount: price,
+        startDate: `${currentTime}`,
+        endDate: `${oneMonthFromNow.toISOString()}`,
+      },
+    }).then((res) => {
+      if(res.status === 200){
+        alert("Subscription Successful");
+        setTimeout(() => {
+          history.push("/browse");
+
+      },1000);
+    }
+    });
+  };
+
   return (
     <div>
       <div className="Signup">
@@ -36,7 +73,7 @@ export const SignupPlanform = () => {
               </ul>
             </div>
             <div className="plancard__container__body__card__footer">
-              <button>Subscribe</button>
+              <button onClick={() => clickToSubscribe(199)}>Subscribe</button>
             </div>
           </div>
           <div className="plancard__container__body__card">
@@ -57,7 +94,7 @@ export const SignupPlanform = () => {
               </ul>
             </div>
             <div className="plancard__container__body__card__footer">
-              <button>Subscribe</button>
+              <button onClick={() => clickToSubscribe(649)}>Subscribe</button>
             </div>
           </div>
           <div className="plancard__container__body__card">
@@ -78,7 +115,7 @@ export const SignupPlanform = () => {
               </ul>
             </div>
             <div className="plancard__container__body__card__footer">
-              <button>Subscribe</button>
+              <button onClick={() => clickToSubscribe(799)}>Subscribe</button>
             </div>
           </div>
         </div>

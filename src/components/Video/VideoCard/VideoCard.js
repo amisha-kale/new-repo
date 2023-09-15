@@ -2,6 +2,8 @@ import React from 'react'
 import './VideoCard.css'
 import { getSeasonsOrMovieLength } from 'utils/time'
 
+let genreId;
+
 const videoCard = (props) => {
     const {
         name, poster_path, genres, runtime, seasons,
@@ -13,10 +15,18 @@ const videoCard = (props) => {
     const styles = {
         backgroundImage: image,
         backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+        
     }
+
+    // OnClick handler for video card
+
+    
 
     let timeSpan = getSeasonsOrMovieLength(seasons, runtime)
     const genreList = genres && genres.map((genre, index) => (
+        genreId = genre.id,
         <span key={genre.id}>
             {genre.name} {index !== genres.length - 1 ? '●' : null} &nbsp;
         </span>
