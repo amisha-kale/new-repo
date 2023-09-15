@@ -14,9 +14,7 @@ export default function App() {
   const authContext = useContext(AuthenticationContext)
 
   const checkAuthAndSetBrowseComponent = (propsObject) => {
-    return (authContext.authenticated || localStorage.getItem('profileSelected')) ?
-      <Browse {...propsObject} /> :
-      <Redirect to="/login" />
+    return <Browse {...propsObject} />
   }
 
   return (

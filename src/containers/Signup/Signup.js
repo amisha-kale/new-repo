@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 
 // css
 import "./Signup.css";
@@ -7,12 +7,15 @@ import "./Signup.css";
 import { NetflixLogo, LoginBackground2 } from "../../assets/images/";
 import { TextField } from "@material-ui/core";
 import Button from "components/UI/Button/Button";
-
+import Axios from "axios";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 let email;
 
 export const Signup = () => {
   email = localStorage.getItem("email");
+
+  const history = useHistory();
 
   const [form, setForm] = useState({
     password: {
@@ -22,8 +25,6 @@ export const Signup = () => {
     },
     onSubmitInvalid: false,
   });
-
-  
 
   const inputChangeHandler = (event) => {
     const { name, value } = event.target;
@@ -68,6 +69,19 @@ export const Signup = () => {
 
   const formSubmitHandler = (event) => {
     event.preventDefault();
+    Axios({
+      method: "post",
+      url: "https://ba01-2405-201-d01a-3101-9d42-b897-b3cb-77a2.ngrok-free.app/api/UsersAuth/signup",
+      data: {
+        userName: email,
+        password: form.password.value,
+      },
+    }).then((res) => {
+      console.log(res);
+      if (res.status === 200) {
+        history.push("/login");
+      }
+    });
     if (!form.password.valid) {
       setForm((prevForm) => ({
         ...prevForm,
@@ -80,7 +94,17 @@ export const Signup = () => {
     <div>
       <div className="Signup">
         <img src={NetflixLogo} alt="Logo" />
-        <p>Sign In</p>
+        <p
+          style={{
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            localStorage.removeItem("email");
+            window.location.href = "/login";
+          }}
+        >
+          Sign In
+        </p>
       </div>
       <div className="SignupCard">
         <h1 className="SignupCard__title">Joining Netflix is easy.</h1>
@@ -101,7 +125,7 @@ export const Signup = () => {
           <span>{email}</span>
         </p>
 
-        <form>
+        <form onSubmit={formSubmitHandler}>
           <TextField
             name="password"
             className="textField"

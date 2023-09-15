@@ -7,104 +7,185 @@ import Button from "components/UI/Button/Button";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { useHistory } from "react-router-dom";
-import { AuthenticationContext } from 'context/Authentication'
-import { validEmailAndPhoneNumber } from 'utils/validation'
+import { AuthenticationContext } from "context/Authentication";
+import { validEmailAndPhoneNumber } from "utils/validation";
+import Axios from "axios";
 
+
+// jwt decode
+
+import jwt_decode from "jwt-decode";
 
 /**
  * The login component, which validates the email and password
  * fields and uses a controlled form. Uses material UI for the
  * textfields.
+ *
+ *
+ *
  */
-const Login = props => {
+
+let userId;
+
+const Login = (props) => {
+
+  
+
   const [form, setForm] = useState({
     email: {
-      value: '',
+      value: "",
       touched: false,
-      valid: false
+      valid: false,
     },
 
     password: {
-      value: '',
+      value: "",
       touched: false,
-      valid: false
+      valid: false,
     },
 
-    onSubmitInvalid: false
-  })
+    onSubmitInvalid: false,
+  });
 
-  const history = useHistory()
-  const authContext = useContext(AuthenticationContext)
+  const history = useHistory();
+  // const authContext = useContext(AuthenticationContext);
 
-  const inputChangeHandler = event => {
+  const inputChangeHandler = (event) => {
     const { name, value } = event.target;
     if (name === "email") {
-      setForm(prevForm => ({
+      setForm((prevForm) => ({
         ...prevForm,
         email: {
           ...prevForm.email,
-          value: value, touched: true, valid: value.length > 0 && validEmailAndPhoneNumber(value)
-        }
-      }))
-
+          value: value,
+          touched: true,
+          valid: value.length > 0 && validEmailAndPhoneNumber(value),
+        },
+      }));
     } else if (name === "password") {
-      setForm(prevForm => ({
+      setForm((prevForm) => ({
         ...prevForm,
         password: {
-          ...prevForm.password, value: value, touched: true,
-          valid: value.length >= 4 && value.length <= 60
-        }
-      }))
+          ...prevForm.password,
+          value: value,
+          touched: true,
+          valid: value.length >= 4 && value.length <= 60,
+        },
+      }));
     }
   };
 
   // For setting error spans once any of the fields are touched.
-  const fieldBlurHandler = event => {
-    if (event.target.name === 'email') {
-      if (form.email.value === '') {
-        setForm(prevForm => ({
+  const fieldBlurHandler = (event) => {
+    if (event.target.name === "email") {
+      if (form.email.value === "") {
+        setForm((prevForm) => ({
           ...prevForm,
-          email: { ...prevForm.email, touched: true }
-        }))
+          email: { ...prevForm.email, touched: true },
+        }));
       }
     }
 
-    if (event.target.name === 'password') {
-      if (form.password.value === '') {
-        setForm(prevForm => ({
+    if (event.target.name === "password") {
+      if (form.password.value === "") {
+        setForm((prevForm) => ({
           ...prevForm,
-          password: { ...prevForm.password, touched: true }
-        }))
+          password: { ...prevForm.password, touched: true },
+        }));
       }
     }
   };
 
   let [emailSpan, passwordSpan] = [null, null];
 
-  if ((!form.email.valid && form.email.touched) || (form.onSubmitInvalid && !form.email.valid)) {
-    emailSpan = <span>Please enter a valid email or phone number.</span>
+  if (
+    (!form.email.valid && form.email.touched) ||
+    (form.onSubmitInvalid && !form.email.valid)
+  ) {
+    emailSpan = <span>Please enter a valid email or phone number.</span>;
   }
 
-  if ((!form.password.valid && form.password.touched) || (form.onSubmitInvalid && !form.password.valid)) {
-    passwordSpan = <span>Your password must contain between 4 and 60 characters.</span>
+  if (
+    (!form.password.valid && form.password.touched) ||
+    (form.onSubmitInvalid && !form.password.valid)
+  ) {
+    passwordSpan = (
+      <span>Your password must contain between 4 and 60 characters.</span>
+    );
+  }
+
+  const checkForPlan = async () => {
+
+    await Axios({
+      method: "post",
+      url: `https://ba01-2405-201-d01a-3101-9d42-b897-b3cb-77a2.ngrok-free.app/api/Subscription/${localStorage.getItem('userId')}`,
+      // headers: {
+      //   Authorization: `Bearer ${localStorage.getItem("token")}`,
+      // },
+      
+      data: {
+        userId: localStorage.getItem("userId"),
+      }
+    })
+      .then((res) => {
+        console.log(res.data);
+        if(res.data === "No subscriptions found for the specified user."){
+          alert("You are not subscribed to any plan");
+          setTimeout(() => {
+            history.push("/signup/planform");
+          },1000);
+        }
+        else{
+          alert("You are already subscribed to a plan");
+          setTimeout(() => {
+            history.push("/browse");
+        },1000);
+        }
+      })
+      .catch((err) => {
+        console.log("hello");
+      });
+
   }
 
   const formSubmitHandler = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     if (!form.email.valid || !form.password.valid) {
-      setForm(prevForm => ({ ...prevForm, onSubmitInvalid: true }))
+      setForm((prevForm) => ({ ...prevForm, onSubmitInvalid: true }));
     } else {
-      authContext.login()
-      history.push("/browse");
+      Axios({
+        method: "post",
+        url: "https://ba01-2405-201-d01a-3101-9d42-b897-b3cb-77a2.ngrok-free.app/api/UsersAuth/login",
+        data: {
+          userName: form.email.value,
+          password: form.password.value,
+        },
+      })
+        .then((res) => {
+          userId = res.data.token;
+          localStorage.setItem("token", userId);
+          userId = jwt_decode(userId);
+          localStorage.setItem("userId", userId.unique_name);
+          console.log(userId.unique_name);
+          if (res.status === 200) {
+            checkForPlan();
+          }
+          
+        })
+        .catch((err) => {
+          alert("Invalid Credentials/Either you are not registered");
+        });
+
+      
     }
-  }
+  };
 
   return (
     <div
       className="Login"
       style={{ backgroundImage: `url(${LoginBackground2})` }}
     >
-      <img src={NetflixLogo} alt="Logo" />
+      <img src={NetflixLogo} alt="Logo" onClick={() => history.push("/")} />
       <div className="LoginCard1">
         <h1>Sign In</h1>
         <form onSubmit={formSubmitHandler}>
@@ -181,9 +262,7 @@ const Login = props => {
               fontWeight: "bold",
               cursor: "pointer",
             }}
-            onClick={() => 
-              history.push("/")
-            }
+            onClick={() => history.push("/")}
           >
             Sign up now.
           </span>

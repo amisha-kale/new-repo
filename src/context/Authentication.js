@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 export const AuthenticationContext = React.createContext({
     authenticated: false,
-    login: () => { }, 
+    // login: () => { }, 
     logout: () => {}
 })
 
@@ -19,7 +19,7 @@ const AuthenticationContextProvider = (props) => {
 
     return (
         <AuthenticationContext.Provider value={{
-            authenticated: authenticated, login: loginHandler, 
+            authenticated: authenticated, 
             logout: logoutHandler
         }}>
             {props.children}
