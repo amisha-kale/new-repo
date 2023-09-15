@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import './VideoModal.css'
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,6 +9,7 @@ import { faPlay, faPlus } from '@fortawesome/free-solid-svg-icons'
 import Button from 'components/UI/Button/Button'
 import useHoverStyleButton from 'hooks/useHoverStyleButton'
 import Axios from 'axios';
+import { VideoPlay } from 'components/Video/VideoShow/VideoPlay';
 
 
 if (process.env.NODE_ENV !== 'test') {
@@ -65,6 +66,12 @@ const VideoModal = props => {
           });
     }
 
+    // open video show modal
+    const [videoShowModal, setVideoShowModal] = useState(false);
+    const openVideoShowModal = () => {
+      setVideoShowModal(true);
+    }
+
     return (
       <Modal
         className="ModalStyles"
@@ -97,24 +104,33 @@ const VideoModal = props => {
             </div>
             <div className="Overview">{overview}</div>
             <div className="horizontalStyles">
-              <Button
-                backgroundColor="#fff"
-                textColor="rgb(24, 24, 24)"
-                playButton
-                height="38px"
-                width="138px"
-                image
-                icon={faPlay}
-                onButtonHover={() => onButtonHoverHandler("playButton")}
-                hoverStatus={buttonHovered["playButton"]}
-              >
-                Play
-              </Button>
-
               <div
-                onClick={onClickForAddToList}
+                onClick={openVideoShowModal}
                 
               >
+                <Button
+                  backgroundColor="#fff"
+                  textColor="rgb(24, 24, 24)"
+                  playButton
+                  height="38px"
+                  width="138px"
+                  image
+                  icon={faPlay}
+                  onButtonHover={() => onButtonHoverHandler("playButton")}
+                  hoverStatus={buttonHovered["playButton"]}
+                >
+                  Play
+                </Button>
+              </div>
+              {videoShowModal ? (
+                <VideoPlay
+                  openVideoShowModal={openVideoShowModal}
+                  videoShowModal={videoShowModal}
+                  name={name || title}
+                />
+              ) : null}
+
+              <div onClick={onClickForAddToList}>
                 <Button
                   backgroundColor="rgba(133, 133, 133, 0.6)"
                   textColor="white"
