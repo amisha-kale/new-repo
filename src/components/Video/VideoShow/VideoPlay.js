@@ -5,7 +5,7 @@ export const VideoPlay = (props) => {
         name
     } = props
 
-    const API = "AIzaSyC0F0SICC08z0od6qa28xVhU3sOuT8VkCs";
+    const API = "AIzaSyBr2CR3rcNLf8LI7ugNqbjyZjDlfS0jWcI";
     // fetch youtube video from name
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${name}&key=${API}`;
 
@@ -26,11 +26,22 @@ export const VideoPlay = (props) => {
     <div>
         {
             video.map((item) => (
-                <div>
-                    <iframe width="560" height="315" src={`https://www.youtube.com/embed/${item.id.videoId}`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
+                <iframe
+                key={item.id.videoId}
+                width="560"
+                height="315"
+                src={`https://www.youtube.com/embed/${item.id.videoId}`}
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen="allowfullscreen"
+                mozallowfullscreen="mozallowfullscreen"
+                msallowfullscreen="msallowfullscreen"
+                oallowfullscreen="oallowfullscreen"
+                webkitallowfullscreen="webkitallowfullscreen"
+              ></iframe>
             ))
         }
+        
     </div>
   );
 }
